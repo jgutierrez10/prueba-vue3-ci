@@ -48,8 +48,9 @@ jobs:
     name: Deploy to GitHub Pages
     needs: test
     runs-on: ubuntu-latest
+    # Solo despliega en push a main (no en PRs)
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
+    
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -70,10 +71,8 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Setup Pages (enable Pages for GitHub Actions if needed)
+      - name: Setup Pages
         uses: actions/configure-pages@v4
-        with:
-          enablement: github-actions
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
